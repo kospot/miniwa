@@ -5,16 +5,16 @@
 
 
 
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="author" content="miniwa">
     <meta name="renderer" content="webkit">
     <meta name="copyright" content="miniwa">
     <meta name="keywords" content="Miniwa | miniwa">
     <meta name="description" content="">
     <meta name="Cache-Control" content="no-cache">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>浅析模块化和seajs · Miniwa</title>
     <style type="text/css">
     @font-face {
@@ -40,7 +40,7 @@
         position: relative;
         z-index: 3;
         width: 100%;
-        /* height: 50vh; */
+         height: 60vh;
         overflow: hidden;
     }
 
@@ -68,10 +68,10 @@
 
 </style>
 
-    <link rel="preload" href= /css/style.css?v=20180524 as="style" onload="this.onload=null;this.rel='stylesheet'" />
-    <link rel="stylesheet" href= /css/mobile.css?v=20180524 media="(max-width: 980px)">
+    <link rel="preload" href="/css/style.css?v=20180524" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="stylesheet" href="/css/mobile.css?v=20180524" media="(max-width: 980px)">
     
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
         
     <!-- /*! loadCSS. [c]2017 Filament Group, Inc. MIT License */
 /* This file is meant as a standalone workflow for
@@ -180,12 +180,12 @@
 }( typeof global !== "undefined" ? global : this ) );
 </script>
 
-    <link rel="icon" href= "/assets/site.ico" />
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script" />    
-    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script" />
-    <link rel="preload" href="/scripts/main.js" as="script" />
-    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin>
-    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin>
+    <link rel="icon" href="/assets/site.ico">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/webfontloader@1.6.28/webfontloader.min.js" as="script">    
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js" as="script">
+    <link rel="preload" href="/scripts/main.js" as="script">
+    <link rel="preload" as="font" href="/font/Oswald-Regular.ttf" crossorigin="">
+    <link rel="preload" as="font" href="https://at.alicdn.com/t/font_327081_1dta1rlogw17zaor.woff" crossorigin="">
     <!-- 百度统计  -->
     
     <!-- 谷歌统计  -->
@@ -206,32 +206,21 @@
     
     <div class="banner">
             <div class="blog-title">
-                <a href="/" >首页</a>
+                <a href="/">首页</a>
             </div>
             <div class="post-title">
                 <a href="#" class="post-name">浅析模块化和seajs</a>
             </div>
     </div>
     
-    <img class="logo" src= /avatar/logo.png >
-    <a class="home-link" href=/>首页</a>
+    <img class="logo" src="/avatar/logo.png">
+    <a class="home-link" href="/">首页</a>
     
-        <a class="home-link" href = "/about" style="right:10rem;">关于我们</a>
+        <a class="home-link" href="/about" style="right:10rem;">关于我们</a>
     
 </header>
     <div class="wrapper">
-        <div class="site-intro" style=
-
-
-
-
-
-
-
-
-height:50vh;
-
->
+        <div class="site-intro" style="height:50vh;">
     
     <!-- 主页  -->
     
@@ -268,7 +257,7 @@ height:50vh;
                 
                 
                     <div class="post-intro-read">
-                        <span>Word count: <span class="post-count">1,393</span> / Reading time: <span class="post-count">5 min</span></span>
+                        <span>Word count: <span class="post-count">1.4k</span> / Reading time: <span class="post-count">4 min</span></span>
                     </div>
                 
                 <div class="post-intro-meta">
@@ -408,7 +397,7 @@ height:50vh;
 <p>seajs通过define函数实现模块定义功能，该函数实际上是定义了一个模块名称为ModuleA的模块，模块的内容为Factory函数，即回调函数。导出的接口导出是return的值，或者可以通过exports变量实现导出。</p>
 <p><strong>模块的依赖机制</strong></p>
 <p>模块的依赖指的是模块里面引用了别的模块，所依赖的模块与自身模块的关系维护。加载过的模块第二次再次require的时候怎么办？Factory会运行两次？答案是否定的，同一个模块不该运行两次。js里如何发现依赖？在seajs里是通过正则表达式解决的，seajs会将factory函数tostring一下，拿到函数体，再进行正则匹配拿到依赖的模块，然后去加载依赖的模块，如果发现依赖的模块也有依赖，则再起加载~递归地加载。上面的ModuleA加载的时候发现ModuleB需要先加载，则会发起一个ModuleB的加载，在浏览器里seajs是通过生产script标签进行js加载的，监听其onload事件来执行模块注册，每次加载过的模块都会保存一份到seajs.cache里，每次加载都会先判断cache里有没有，没则发起http去获取模块代码，有则看看模块是否已经运行过factory函数，如没有则运行并返回结果，有则直接返回结果。seajs3.0里做了一个优化，每次用script加载完后，都会删除该dom节点以减轻dom树的内存压力。（ps：seajs里是允许循环依赖的，不过并没有解决循环依赖，不过循环依赖这种逻辑上有问题的组织方式本就不该存在。）</p>
-<p>模块既然是一个文件，那seajs里是如何标识一个模块的呢？也就是它的模块唯一标识的管理。seajs由于是以网络文件为基础的，它在请求每个模块的时候都会生给模块分配一个id，对与define定义的模块，会加上网络域名的前缀，如果模块本身没有id，则以模块的路径为基础如文件/static/modules/init/init.js的文件，若define的时候没有指定id，直接define(factory)，则它会以<a href="http://xxx.com:xx/static/modules/init/init.js作为模块的唯一id。值得一提的是，seajs的默认当前工作空间为sea.js文件的当前目录。也就是说require(&quot;jquery&quot;)的时候，如果jquery不是iyige别名，则它会去sea.js的当前目录里去找jquery文件。" target="_blank" rel="external">http://xxx.com:xx/static/modules/init/init.js作为模块的唯一id。值得一提的是，seajs的默认当前工作空间为sea.js文件的当前目录。也就是说require(&quot;jquery&quot;)的时候，如果jquery不是iyige别名，则它会去sea.js的当前目录里去找jquery文件。</a></p>
+<p>模块既然是一个文件，那seajs里是如何标识一个模块的呢？也就是它的模块唯一标识的管理。seajs由于是以网络文件为基础的，它在请求每个模块的时候都会生给模块分配一个id，对与define定义的模块，会加上网络域名的前缀，如果模块本身没有id，则以模块的路径为基础如文件/static/modules/init/init.js的文件，若define的时候没有指定id，直接define(factory)，则它会以<a href="http://xxx.com:xx/static/modules/init/init.js作为模块的唯一id。值得一提的是，seajs的默认当前工作空间为sea.js文件的当前目录。也就是说require(&quot;jquery&quot;)的时候，如果jquery不是iyige别名，则它会去sea.js的当前目录里去找jquery文件。" target="_blank" rel="noopener">http://xxx.com:xx/static/modules/init/init.js作为模块的唯一id。值得一提的是，seajs的默认当前工作空间为sea.js文件的当前目录。也就是说require(&quot;jquery&quot;)的时候，如果jquery不是iyige别名，则它会去sea.js的当前目录里去找jquery文件。</a></p>
 <p><strong>资源的优化整合</strong></p>
 <p>模块化增加了文件的数量，而且由于seajs以网络文件为基础，本地找不到模块的时候，就回去加载网络上的模块，所以这也给打包带来很大的挑战。把多个模块合并成一个大文件，这也就放弃了模块当个加载的机会。那一个文件有多个模块的时候，怎么去区分一个模块呢？这就只能通过模块的id了，也就是说构建的时候需要动态生成模块的id。所以合并之前要做一个模块id提取和依赖提取的操作。</p>
 <h3 id="seajs的误区"><a href="#seajs的误区" class="headerlink" title="seajs的误区"></a>seajs的误区</h3><p>seajs里有几个地方很容易让人引起误解。</p>
@@ -425,16 +414,16 @@ height:50vh;
     
         <div class="license-wrapper">
             <p>原文作者: <a href="http://miniwa.com.cn">miniwa</a>
-            <p>原文链接: <a href="http://miniwa.com.cn/2015/09/20/2015-09-20-seajs-source/">http://miniwa.com.cn/2015/09/20/2015-09-20-seajs-source/</a>
-            <p>发表日期: <a href="http://miniwa.com.cn/2015/09/20/2015-09-20-seajs-source/">September 20th 2015, 3:23:12</a>
-        </div>
+            </p><p>原文链接: <a href="http://miniwa.com.cn/2015/09/20/2015-09-20-seajs-source/">http://miniwa.com.cn/2015/09/20/2015-09-20-seajs-source/</a>
+            </p><p>发表日期: <a href="http://miniwa.com.cn/2015/09/20/2015-09-20-seajs-source/">September 20th 2015, 3:23:12</a>
+        </p></div>
     
     <!-- paginator  -->
     <ul class="post-paginator">
         <li class="next">
             
                 <div class="nextSlogan">Next Post</div>
-                <a href= "/2015/09/20/2015-09-25-shadow-dom/" title= 影子(shadow)DOM >
+                <a href="/2015/09/20/2015-09-25-shadow-dom/" title="影子(shadow)DOM">
                     <div class="nextTitle">影子(shadow)DOM</div>
                 </a>
             
@@ -442,8 +431,8 @@ height:50vh;
         <li class="previous">
             
                 <div class="prevSlogan">Previous Post</div>
-                <a href= "/2015/10/10/2015-10-10-backbone/" title= Backbone总结 >
-                    <div class="prevTitle">Backbone总结</div>
+                <a href="/2015/09/12/2015-09-12-js-base-extend/" title="javascript的继承">
+                    <div class="prevTitle">javascript的继承</div>
                 </a>
             
         </li>
@@ -473,13 +462,13 @@ height:50vh;
     
         
             
-                <a href="mailto:851428272@qq.com" class="iconfont-archer email" title=email ></a>
+                <a href="mailto:851428272@qq.com" class="iconfont-archer email" title="email"></a>
             
         
     
         
             
-                <a href="//github.com/kospot" class="iconfont-archer github" target="_blank" title=github></a>
+                <a href="//github.com/kospot" class="iconfont-archer github" target="_blank" title="github"></a>
             
         
     
@@ -737,7 +726,16 @@ top:50vh;
     
     
     
-    <div class="total-archive"> Total : 18 </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <div class="total-archive"> Total : 19 </div>
     
     <div class="post-archive">
     
@@ -749,12 +747,17 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">03/02</span><a class="archive-post-title" href= "/2018/03/02/2018-02-19-chongsheng/" >二月冲绳之旅</a>
+            <span class="archive-post-date">04/11</span><a class="archive-post-title" href="/2018/04/11/2018-04-11-git-study/">Git基础知识总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/14</span><a class="archive-post-title" href= "/2018/02/14/2018-02-14-egg-validate/" >egg整合数据校验</a>
+            <span class="archive-post-date">03/02</span><a class="archive-post-title" href="/2018/03/02/2018-02-19-chongsheng/">二月冲绳之旅</a>
+        </li>
+    
+    
+        <li class="archive-post-item">
+            <span class="archive-post-date">02/14</span><a class="archive-post-title" href="/2018/02/14/2018-02-14-egg-validate/">egg整合数据校验</a>
         </li>
     
     
@@ -768,37 +771,37 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/10</span><a class="archive-post-title" href= "/2017/09/10/2017-09-10-get-data/" >记一次node捉取表格数据的实践</a>
+            <span class="archive-post-date">09/10</span><a class="archive-post-title" href="/2017/09/10/2017-09-10-get-data/">记一次node捉取表格数据的实践</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/09</span><a class="archive-post-title" href= "/2017/09/09/2017-09-09-about-es6/" >关于ES6的这些你知道吗</a>
+            <span class="archive-post-date">09/09</span><a class="archive-post-title" href="/2017/09/09/2017-09-09-about-es6/">关于ES6的这些你知道吗</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/01</span><a class="archive-post-title" href= "/2017/09/01/2017-09-01-vuex-base/" >vuex知识总结</a>
+            <span class="archive-post-date">09/01</span><a class="archive-post-title" href="/2017/09/01/2017-09-01-vuex-base/">vuex知识总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/20</span><a class="archive-post-title" href= "/2017/08/20/2017-08-20-xiamen/" >追忆厦门鼓浪屿</a>
+            <span class="archive-post-date">08/20</span><a class="archive-post-title" href="/2017/08/20/2017-08-20-xiamen/">追忆厦门鼓浪屿</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/19</span><a class="archive-post-title" href= "/2017/08/19/2017-08-05-yangshuoyouji/" >我和小艺的广州阳朔两日闲游</a>
+            <span class="archive-post-date">08/19</span><a class="archive-post-title" href="/2017/08/19/2017-08-05-yangshuoyouji/">我和小艺的广州阳朔两日闲游</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">08/18</span><a class="archive-post-title" href= "/2017/08/18/2017-08-18-vue-router/" >vue-router的使用</a>
+            <span class="archive-post-date">08/18</span><a class="archive-post-title" href="/2017/08/18/2017-08-18-vue-router/">vue-router的使用</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">02/16</span><a class="archive-post-title" href= "/2017/02/16/2016-06-08-pie/" >环形统计图</a>
+            <span class="archive-post-date">02/16</span><a class="archive-post-title" href="/2017/02/16/2016-06-08-pie/">环形统计图</a>
         </li>
     
     
@@ -812,22 +815,22 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">06/08</span><a class="archive-post-title" href= "/2016/06/08/2016-06-08-javascript-template/" >javascript模板</a>
+            <span class="archive-post-date">06/08</span><a class="archive-post-title" href="/2016/06/08/2016-06-08-javascript-template/">javascript模板</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2016/04/10/2015-12-05-css-center/" >css居中显示</a>
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href="/2016/04/10/2015-12-05-css-center/">css居中显示</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2016/04/10/2016-04-10-react-resume/" >reactjs总结</a>
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href="/2016/04/10/2016-04-10-react-resume/">reactjs总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">04/10</span><a class="archive-post-title" href= "/2016/04/10/2016-04-12-node-npm/" >node模块加载</a>
+            <span class="archive-post-date">04/10</span><a class="archive-post-title" href="/2016/04/10/2016-04-12-node-npm/">node模块加载</a>
         </li>
     
     
@@ -841,30 +844,30 @@ top:50vh;
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">11/06</span><a class="archive-post-title" href= "/2015/11/06/2015-11-6-reback-js/" >js的垃圾回收机制</a>
+            <span class="archive-post-date">11/06</span><a class="archive-post-title" href="/2015/11/06/2015-11-6-reback-js/">js的垃圾回收机制</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">10/10</span><a class="archive-post-title" href= "/2015/10/10/2015-10-10-backbone/" >Backbone总结</a>
+            <span class="archive-post-date">10/10</span><a class="archive-post-title" href="/2015/10/10/2015-10-10-backbone/">Backbone总结</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/20</span><a class="archive-post-title" href= "/2015/09/20/2015-09-25-shadow-dom/" >影子(shadow)DOM</a>
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/2015/09/20/2015-09-20-seajs-source/">浅析模块化和seajs</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/20</span><a class="archive-post-title" href= "/2015/09/20/2015-09-20-seajs-source/" >浅析模块化和seajs</a>
+            <span class="archive-post-date">09/20</span><a class="archive-post-title" href="/2015/09/20/2015-09-25-shadow-dom/">影子(shadow)DOM</a>
         </li>
     
     
         <li class="archive-post-item">
-            <span class="archive-post-date">09/12</span><a class="archive-post-title" href= "/2015/09/12/2015-09-12-js-base-extend/" >javascript的继承</a>
+            <span class="archive-post-date">09/12</span><a class="archive-post-title" href="/2015/09/12/2015-09-12-js-base-extend/">javascript的继承</a>
         </li>
     
-    </div>
+    </ul></div>
   </div>
         <div class="sidebar-panel-tags">
     <div class="sidebar-tags-name">
@@ -876,10 +879,10 @@ top:50vh;
     </div>
     <div class="iconfont-archer sidebar-tags-empty">&#xe678;</div>
     <div class="tag-load-fail" style="display: none; color: #ccc; font-size: 0.6rem;">
-    缺失模块。<br/>
-    1、请确保node版本大于6.2<br/>
-    2、在博客根目录（注意不是archer根目录）执行以下命令：<br/>
-    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br/>
+    缺失模块。<br>
+    1、请确保node版本大于6.2<br>
+    2、在博客根目录（注意不是archer根目录）执行以下命令：<br>
+    <span style="color: #f75357; font-size: 1rem; line-height: 2rem;">npm i hexo-generator-json-content --save</span><br>
     3、在根目录_config.yml里添加配置：
     <pre style="color: #787878; font-size: 0.6rem;">
 jsonContent:
